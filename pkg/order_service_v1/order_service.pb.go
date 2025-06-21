@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: order_service.proto
+// source: order_service_v1/order_service.proto
 
-package pkg
+package order_service_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -20,22 +20,22 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-var File_order_service_proto protoreflect.FileDescriptor
+var File_order_service_v1_order_service_proto protoreflect.FileDescriptor
 
-const file_order_service_proto_rawDesc = "" +
+const file_order_service_v1_order_service_proto_rawDesc = "" +
 	"\n" +
-	"\x13order_service.proto\x12\x10order_service_v1\x1a\x1corder_service_messages.proto2\xcf\x01\n" +
+	"$order_service_v1/order_service.proto\x12\x10order_service_v1\x1a-order_service_v1/order_service_messages.proto2\xcf\x01\n" +
 	"\fOrderService\x12c\n" +
 	"\x0eGetOrderStatus\x12'.order_service_v1.GetOrderStatusRequest\x1a(.order_service_v1.GetOrderStatusResponse\x12Z\n" +
-	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponseB*Z(github.com/ewik2k21/grpcOrderService/pkgb\x06proto3"
+	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponseB;Z9github.com/ewik2k21/grpcOrderService/pkg/order_service_v1b\x06proto3"
 
-var file_order_service_proto_goTypes = []any{
+var file_order_service_v1_order_service_proto_goTypes = []any{
 	(*GetOrderStatusRequest)(nil),  // 0: order_service_v1.GetOrderStatusRequest
 	(*CreateOrderRequest)(nil),     // 1: order_service_v1.CreateOrderRequest
 	(*GetOrderStatusResponse)(nil), // 2: order_service_v1.GetOrderStatusResponse
 	(*CreateOrderResponse)(nil),    // 3: order_service_v1.CreateOrderResponse
 }
-var file_order_service_proto_depIdxs = []int32{
+var file_order_service_v1_order_service_proto_depIdxs = []int32{
 	0, // 0: order_service_v1.OrderService.GetOrderStatus:input_type -> order_service_v1.GetOrderStatusRequest
 	1, // 1: order_service_v1.OrderService.CreateOrder:input_type -> order_service_v1.CreateOrderRequest
 	2, // 2: order_service_v1.OrderService.GetOrderStatus:output_type -> order_service_v1.GetOrderStatusResponse
@@ -47,26 +47,26 @@ var file_order_service_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_order_service_proto_init() }
-func file_order_service_proto_init() {
-	if File_order_service_proto != nil {
+func init() { file_order_service_v1_order_service_proto_init() }
+func file_order_service_v1_order_service_proto_init() {
+	if File_order_service_v1_order_service_proto != nil {
 		return
 	}
-	file_order_service_messages_proto_init()
+	file_order_service_v1_order_service_messages_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_order_service_proto_rawDesc), len(file_order_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_order_service_v1_order_service_proto_rawDesc), len(file_order_service_v1_order_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_order_service_proto_goTypes,
-		DependencyIndexes: file_order_service_proto_depIdxs,
+		GoTypes:           file_order_service_v1_order_service_proto_goTypes,
+		DependencyIndexes: file_order_service_v1_order_service_proto_depIdxs,
 	}.Build()
-	File_order_service_proto = out.File
-	file_order_service_proto_goTypes = nil
-	file_order_service_proto_depIdxs = nil
+	File_order_service_v1_order_service_proto = out.File
+	file_order_service_v1_order_service_proto_goTypes = nil
+	file_order_service_v1_order_service_proto_depIdxs = nil
 }

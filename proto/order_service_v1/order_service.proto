@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package order_service_v1;
 
-import "order_service_messages.proto";
+option go_package = "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1";
 
-option go_package = "github.com/ewik2k21/grpcOrderService/pkg";
+import "order_service_v1/order_service_messages.proto";
 
-service OrderService {
+service OrderService{
   rpc GetOrderStatus(GetOrderStatusRequest) returns (GetOrderStatusResponse);
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
 }
