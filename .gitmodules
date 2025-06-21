@@ -1,0 +1,3 @@
+[submodule "proto/common"]
+	path = proto/common
+	url = https://github.com/ewik2k21/grpcSpotInstrumentService

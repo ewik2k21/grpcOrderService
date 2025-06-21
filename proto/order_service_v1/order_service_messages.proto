@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package order_service_v1;
+import "github.com/ewik2k21/grpcSpotInstrumentService/blob/main/proto/common.proto";
+option go_package = "github.com/ewik2k21/grpcOrderService/pkg";
+
+message GetOrderStatusRequest {
+  string order_id = 1;
+  string user_id = 2;
+}
+
+message GetOrderStatusResponse {
+  Status status = 1;
+}
+
+message CreateOrderRequest {
+  common.UserRole user_role = 1;
+  string user_id =2 ;
+  string market_id = 3;
+  OrderType orderType =4 ;
+  double price = 5;
+  double quantity= 6;
+}
+
+message  CreateOrderResponse {
+  string order_id = 1;
+  Status status = 2;
+}
+
+enum OrderType {
+  MARKET_ORDER = 0;
+  LIMIT_ORDER =1;
+}
+
+enum Status {
+  CREATED = 0;
+  PROCESSING = 1;
+  PROCESSED = 2;
+}

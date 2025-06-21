@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package order_service_v1;
+
+import "order_service_messages.proto";
+
+option go_package = "github.com/ewik2k21/grpcOrderService/pkg";
+
+service OrderService {
+  rpc GetOrderStatus(GetOrderStatusRequest) returns (GetOrderStatusResponse);
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+}
