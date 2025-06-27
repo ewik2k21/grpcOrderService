@@ -4,7 +4,7 @@
 // 	protoc        v6.31.1
 // source: order_service_v1/order_service_messages.proto
 
-package order_service_v1
+package pkg
 
 import (
 	pkg "github.com/ewik2k21/grpcSpotInstrumentService/pkg"
@@ -377,7 +377,7 @@ const file_order_service_v1_order_service_messages_proto_rawDesc = "" +
 	"\tPROCESSED\x10\x02*.\n" +
 	"\tOrderType\x12\x10\n" +
 	"\fMARKET_ORDER\x10\x00\x12\x0f\n" +
-	"\vLIMIT_ORDER\x10\x01B;Z9github.com/ewik2k21/grpcOrderService/pkg/order_service_v1b\x06proto3"
+	"\vLIMIT_ORDER\x10\x01B*Z(github.com/ewik2k21/grpcOrderService/pkgb\x06proto3"
 
 var (
 	file_order_service_v1_order_service_messages_proto_rawDescOnce sync.Once

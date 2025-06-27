@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package order_service_v1;
 
-option go_package = "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1";
+option go_package = "github.com/ewik2k21/grpcOrderService/pkg";
 
 import "order_service_v1/order_service_messages.proto";
 

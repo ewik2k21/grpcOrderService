@@ -4,7 +4,7 @@
 // - protoc             v6.31.1
 // source: order_service_v1/order_service.proto
 
-package order_service_v1
+package pkg
 
 import (
 	context "context"

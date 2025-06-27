@@ -4,7 +4,7 @@
 // 	protoc        v6.31.1
 // source: order_service_v1/order_service.proto
 
-package order_service_v1
+package pkg
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -27,7 +27,7 @@ const file_order_service_v1_order_service_proto_rawDesc = "" +
 	"$order_service_v1/order_service.proto\x12\x10order_service_v1\x1a-order_service_v1/order_service_messages.proto2\xcf\x01\n" +
 	"\fOrderService\x12c\n" +
 	"\x0eGetOrderStatus\x12'.order_service_v1.GetOrderStatusRequest\x1a(.order_service_v1.GetOrderStatusResponse\x12Z\n" +
-	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponseB;Z9github.com/ewik2k21/grpcOrderService/pkg/order_service_v1b\x06proto3"
+	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponseB*Z(github.com/ewik2k21/grpcOrderService/pkgb\x06proto3"
 
 var file_order_service_v1_order_service_proto_goTypes = []any{
 	(*GetOrderStatusRequest)(nil),  // 0: order_service_v1.GetOrderStatusRequest

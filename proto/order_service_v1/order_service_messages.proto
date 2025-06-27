@@ -4,7 +4,7 @@ package order_service_v1;
 
 import "common/proto/common.proto";
 
-option go_package = "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1";
+option go_package = "github.com/ewik2k21/grpcOrderService/pkg";
 
 message GetOrderStatusRequest{
   string order_id = 1;
