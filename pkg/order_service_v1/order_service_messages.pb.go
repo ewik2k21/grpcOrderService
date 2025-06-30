@@ -7,7 +7,7 @@
 package pkg
 
 import (
-	pkg "github.com/ewik2k21/grpcSpotInstrumentService/pkg"
+	spot_instrument_v1 "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -214,13 +214,13 @@ func (x *GetOrderStatusResponse) GetStatus() Status {
 }
 
 type CreateOrderRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserRole      pkg.UserRole           `protobuf:"varint,1,opt,name=user_role,json=userRole,proto3,enum=common.UserRole" json:"user_role,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	MarketId      string                 `protobuf:"bytes,3,opt,name=market_id,json=marketId,proto3" json:"market_id,omitempty"`
-	OrderType     OrderType              `protobuf:"varint,4,opt,name=order_type,json=orderType,proto3,enum=order_service_v1.OrderType" json:"order_type,omitempty"`
-	Price         float64                `protobuf:"fixed64,5,opt,name=price,proto3" json:"price,omitempty"`
-	Quantity      float64                `protobuf:"fixed64,6,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	UserRole      spot_instrument_v1.UserRole `protobuf:"varint,1,opt,name=user_role,json=userRole,proto3,enum=common.UserRole" json:"user_role,omitempty"`
+	UserId        string                      `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	MarketId      string                      `protobuf:"bytes,3,opt,name=market_id,json=marketId,proto3" json:"market_id,omitempty"`
+	OrderType     OrderType                   `protobuf:"varint,4,opt,name=order_type,json=orderType,proto3,enum=order_service_v1.OrderType" json:"order_type,omitempty"`
+	Price         float64                     `protobuf:"fixed64,5,opt,name=price,proto3" json:"price,omitempty"`
+	Quantity      float64                     `protobuf:"fixed64,6,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -255,11 +255,11 @@ func (*CreateOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_service_v1_order_service_messages_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateOrderRequest) GetUserRole() pkg.UserRole {
+func (x *CreateOrderRequest) GetUserRole() spot_instrument_v1.UserRole {
 	if x != nil {
 		return x.UserRole
 	}
-	return pkg.UserRole(0)
+	return spot_instrument_v1.UserRole(0)
 }
 
 func (x *CreateOrderRequest) GetUserId() string {
@@ -394,13 +394,13 @@ func file_order_service_v1_order_service_messages_proto_rawDescGZIP() []byte {
 var file_order_service_v1_order_service_messages_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_order_service_v1_order_service_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_order_service_v1_order_service_messages_proto_goTypes = []any{
-	(Status)(0),                    // 0: order_service_v1.Status
-	(OrderType)(0),                 // 1: order_service_v1.OrderType
-	(*GetOrderStatusRequest)(nil),  // 2: order_service_v1.GetOrderStatusRequest
-	(*GetOrderStatusResponse)(nil), // 3: order_service_v1.GetOrderStatusResponse
-	(*CreateOrderRequest)(nil),     // 4: order_service_v1.CreateOrderRequest
-	(*CreateOrderResponse)(nil),    // 5: order_service_v1.CreateOrderResponse
-	(pkg.UserRole)(0),              // 6: common.UserRole
+	(Status)(0),                      // 0: order_service_v1.Status
+	(OrderType)(0),                   // 1: order_service_v1.OrderType
+	(*GetOrderStatusRequest)(nil),    // 2: order_service_v1.GetOrderStatusRequest
+	(*GetOrderStatusResponse)(nil),   // 3: order_service_v1.GetOrderStatusResponse
+	(*CreateOrderRequest)(nil),       // 4: order_service_v1.CreateOrderRequest
+	(*CreateOrderResponse)(nil),      // 5: order_service_v1.CreateOrderResponse
+	(spot_instrument_v1.UserRole)(0), // 6: common.UserRole
 }
 var file_order_service_v1_order_service_messages_proto_depIdxs = []int32{
 	0, // 0: order_service_v1.GetOrderStatusResponse.status:type_name -> order_service_v1.Status

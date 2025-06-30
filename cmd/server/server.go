@@ -3,8 +3,15 @@ package server
 import (
 	"context"
 	"github.com/ewik2k21/grpcOrderService/config"
+	"github.com/ewik2k21/grpcOrderService/internal/handlers"
+	"github.com/ewik2k21/grpcOrderService/internal/interceptors"
+	"github.com/ewik2k21/grpcOrderService/internal/repositories"
+	"github.com/ewik2k21/grpcOrderService/internal/services"
 	order_service_v1 "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
+	spot_instrument_service_v1 "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"log/slog"
 	"net"
 	"net/http"
@@ -18,12 +25,26 @@ import (
 func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 	wg := sync.WaitGroup{}
 
-	grpcServer := grpc.NewServer(
-		grpc.ChainUnaryInterceptor())
+	//conn for spot instrument client
+	conn, err := grpc.Dial(cfg.SpotInstrument, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		logger.Error("failed to connect to spot instrument service", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+	defer conn.Close()
 
-	orderRepo := reposiotries.NewOrderRepository(logger)
+	spotInstrumentClient := spot_instrument_service_v1.NewSpotInstrumentServiceClient(conn)
+
+	grpcServer := grpc.NewServer(
+		grpc.ChainUnaryInterceptor(
+			interceptors.RequestIDInterceptor(),
+			interceptors.LoggerRequestInterceptor(logger),
+			interceptors.PrometheusInterceptor(),
+			interceptors.UnaryPanicRecoveryInterceptor(logger)))
+
+	orderRepo := repositories.NewOrderRepository(logger)
 	orderService := services.NewOrderService(*orderRepo, logger)
-	orderHandler := handlers.NewOrderHandler(*orderService)
+	orderHandler := handlers.NewOrderHandler(logger, orderService, spotInstrumentClient)
 
 	order_service_v1.RegisterOrderServiceServer(grpcServer, orderHandler)
 
@@ -62,7 +83,7 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		logger.Info("metrics endpoint start on :", slog.String("port", cfg.HttpPort))
+		logger.Info("metrics endpoint start on :", slog.String("port", cfg.HTTPPort))
 		http.Handle("/metrics", promhttp.Handler())
 		if err = metricsServer.ListenAndServe(); err != nil {
 			logger.Error("metrics endpoint failed", slog.String("error", err.Error()))

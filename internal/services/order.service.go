@@ -5,7 +5,7 @@ import (
 	"github.com/ewik2k21/grpcOrderService/internal/mappers"
 	"github.com/ewik2k21/grpcOrderService/internal/repositories"
 	order "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
-	pkg "github.com/ewik2k21/grpcOrderService/pkg/spot_instrument_service_v1"
+	pkg "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	"github.com/google/uuid"
 	"log/slog"
 )
