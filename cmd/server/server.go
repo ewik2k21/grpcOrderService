@@ -43,8 +43,8 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 			interceptors.UnaryPanicRecoveryInterceptor(logger)))
 
 	orderRepo := repositories.NewOrderRepository(logger)
-	orderService := services.NewOrderService(*orderRepo, logger)
-	orderHandler := handlers.NewOrderHandler(logger, orderService, spotInstrumentClient)
+	orderService := services.NewOrderService(*orderRepo, spotInstrumentClient, logger)
+	orderHandler := handlers.NewOrderHandler(logger, orderService)
 
 	order_service_v1.RegisterOrderServiceServer(grpcServer, orderHandler)
 

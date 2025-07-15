@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/ewik2k21/grpcOrderService/internal/mappers"
 	"github.com/ewik2k21/grpcOrderService/internal/repositories"
@@ -12,17 +13,35 @@ import (
 
 type OrderService struct {
 	repo   repositories.OrderRepository
+	client pkg.SpotInstrumentServiceClient
 	logger *slog.Logger
 }
 
-func NewOrderService(repo repositories.OrderRepository, logger *slog.Logger) *OrderService {
+//redis todo
+
+func NewOrderService(
+	repo repositories.OrderRepository,
+	client pkg.SpotInstrumentServiceClient,
+	logger *slog.Logger,
+) *OrderService {
 	return &OrderService{
 		repo:   repo,
+		client: client,
 		logger: logger,
 	}
 }
 
-func (s *OrderService) CreateOrder(resp *pkg.ViewMarketsResponse, request *order.CreateOrderRequest) (string, *order.Status, error) {
+func (s *OrderService) CreateOrder(ctx context.Context, userRole pkg.UserRole, request *order.CreateOrderRequest) (string, *order.Status, error) {
+
+	resp, err := s.client.ViewMarkets(
+		ctx,
+		&pkg.ViewMarketsRequest{
+			UserRole: userRole,
+		})
+	if err != nil {
+		s.logger.Error("error request view markets from clients", slog.String("error", err.Error()))
+		return "", nil, err
+	}
 
 	markets, err := mappers.MapProtoToMarkets(resp)
 	if err != nil {

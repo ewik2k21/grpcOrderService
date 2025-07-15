@@ -4,45 +4,30 @@ import (
 	"context"
 	"github.com/ewik2k21/grpcOrderService/internal/services"
 	order "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
-	spotInstrument "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	"log/slog"
 )
 
 type OrderHandler struct {
 	order.UnimplementedOrderServiceServer
-	client  spotInstrument.SpotInstrumentServiceClient
 	service services.OrderService
 	logger  *slog.Logger
-	//todo add service
 }
 
 func NewOrderHandler(
 	logger *slog.Logger,
 	service *services.OrderService,
-	client spotInstrument.SpotInstrumentServiceClient,
-	// redisClient *redis.Client,
 ) *OrderHandler {
 	return &OrderHandler{
 		logger:  logger,
 		service: *service,
-		client:  client,
 	}
 }
 
 func (h *OrderHandler) CreateOrder(ctx context.Context, request *order.CreateOrderRequest) (*order.CreateOrderResponse, error) {
 
 	userRole := request.GetUserRole()
-	resp, err := h.client.ViewMarkets(
-		ctx,
-		&spotInstrument.ViewMarketsRequest{
-			UserRole: userRole,
-		})
-	if err != nil {
-		h.logger.Error("error request view markets from clients", slog.String("error", err.Error()))
-		return nil, err
-	}
 
-	orderId, status, err := h.service.CreateOrder(resp, request)
+	orderId, status, err := h.service.CreateOrder(ctx, userRole, request)
 	if err != nil {
 		return nil, err
 	}
