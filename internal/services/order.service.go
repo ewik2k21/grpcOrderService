@@ -2,19 +2,24 @@ package services
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/ewik2k21/grpcOrderService/internal/mappers"
 	"github.com/ewik2k21/grpcOrderService/internal/repositories"
 	order "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
 	pkg "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	"github.com/google/uuid"
+	"github.com/redis/go-redis/v9"
 	"log/slog"
+	"time"
 )
 
 type OrderService struct {
-	repo   repositories.OrderRepository
-	client pkg.SpotInstrumentServiceClient
-	logger *slog.Logger
+	repo        repositories.OrderRepository
+	client      pkg.SpotInstrumentServiceClient
+	logger      *slog.Logger
+	redisClient *redis.Client
+	cacheTTL    time.Duration
 }
 
 //redis todo
@@ -23,15 +28,28 @@ func NewOrderService(
 	repo repositories.OrderRepository,
 	client pkg.SpotInstrumentServiceClient,
 	logger *slog.Logger,
+	redisClient *redis.Client,
+	cacheTTL time.Duration,
 ) *OrderService {
 	return &OrderService{
-		repo:   repo,
-		client: client,
-		logger: logger,
+		repo:        repo,
+		client:      client,
+		logger:      logger,
+		redisClient: redisClient,
+		cacheTTL:    cacheTTL,
 	}
 }
 
 func (s *OrderService) CreateOrder(ctx context.Context, userRole pkg.UserRole, request *order.CreateOrderRequest) (string, *order.Status, error) {
+	cacheKey := fmt.Sprintf("markets:%v", userRole.String())
+
+	cachedData, err := s.redisClient.Get(ctx, cacheKey).Result()
+	if err == nil {
+		var cachedResp pkg.ViewMarketsResponse
+		if err := json.Unmarshal([]byte(cachedData), &cachedResp); err == nil {
+			return CheckMarkets(&cachedResp, request, s)
+		}
+	}
 
 	resp, err := s.client.ViewMarkets(
 		ctx,
@@ -43,6 +61,21 @@ func (s *OrderService) CreateOrder(ctx context.Context, userRole pkg.UserRole, r
 		return "", nil, err
 	}
 
+	dataBytes, err := json.Marshal(resp)
+	if err == nil {
+		err = s.redisClient.SetEx(ctx, cacheKey, dataBytes, s.cacheTTL).Err()
+		if err != nil {
+			s.logger.Error("failed to cache data: %v", err)
+		} else {
+			s.logger.Info("data cached")
+		}
+	}
+
+	return CheckMarkets(resp, request, s)
+
+}
+
+func CheckMarkets(resp *pkg.ViewMarketsResponse, request *order.CreateOrderRequest, s *OrderService) (string, *order.Status, error) {
 	markets, err := mappers.MapProtoToMarkets(resp)
 	if err != nil {
 		s.logger.Error("failed mapping proto to markets", slog.String("error", err.Error()))
@@ -50,7 +83,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, userRole pkg.UserRole, r
 	}
 
 	marketId := request.GetMarketId()
-	var ok bool = false
+	var ok = false
 
 	mapOrder, err := mappers.MapProtoToOrder(request)
 	if err != nil {
@@ -70,9 +103,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, userRole pkg.UserRole, r
 	if !ok {
 		return "", nil, fmt.Errorf("needed market not found")
 	}
-
 	return orderId.String(), status, nil
-
 }
 
 func (s *OrderService) GetOrderStatus(userIdString, orderIdString string) (*order.Status, error) {

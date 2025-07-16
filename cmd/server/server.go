@@ -10,6 +10,7 @@ import (
 	order_service_v1 "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
 	spot_instrument_service_v1 "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log/slog"
@@ -42,8 +43,23 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 			interceptors.PrometheusInterceptor(),
 			interceptors.UnaryPanicRecoveryInterceptor(logger)))
 
+	//redis client create
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     cfg.RedisPort,
+		Password: "",
+		DB:       0,
+	})
+	cacheTTL := 1 * time.Minute
+
+	_, err = redisClient.Ping(ctx).Result()
+	if err != nil {
+		logger.Error("failed to connect to Redis: %v", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+	logger.Info("Redis connect on ", slog.String("port", cfg.RedisPort))
+
 	orderRepo := repositories.NewOrderRepository(logger)
-	orderService := services.NewOrderService(*orderRepo, spotInstrumentClient, logger)
+	orderService := services.NewOrderService(*orderRepo, spotInstrumentClient, logger, redisClient, cacheTTL)
 	orderHandler := handlers.NewOrderHandler(logger, orderService)
 
 	order_service_v1.RegisterOrderServiceServer(grpcServer, orderHandler)
@@ -96,6 +112,14 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 
 	<-stop
 	logger.Info("received shutdown signal, start graceful shutdown")
+	//shutdown grpc
+	grpcServer.GracefulStop()
+	logger.Info("grpc server stopped")
+
+	//shutdown redis
+	if err = redisClient.Close(); err != nil {
+		logger.Error("redis client shutdown failed", slog.String("error", err.Error()))
+	}
 
 	//shutdown metrics server
 	shutdownCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
@@ -103,10 +127,6 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 	if err := metricsServer.Shutdown(shutdownCtx); err != nil {
 		logger.Error("metrics server shutdown failed", slog.String("error", err.Error()))
 	}
-
-	//shutdown grpc
-	grpcServer.GracefulStop()
-	logger.Info("server stopped")
 
 	wg.Wait()
 	logger.Info("all stopped")
