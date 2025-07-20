@@ -39,3 +39,20 @@ enum OrderType {
   MARKET_ORDER = 0;
   LIMIT_ORDER = 1;
 }
+
+message StreamOrderUpdatesRequest {
+  common.UserRole user_role = 1;
+}
+
+message OrderStatusUpdateResponse {
+  Status status = 1;
+}
+
+message UpdateOrderStatusRequest{
+  string order_id = 1;
+  Status status = 2;
+}
+
+message UpdateOrderStatusResponse{
+  Status status = 1;
+}

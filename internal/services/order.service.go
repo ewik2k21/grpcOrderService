@@ -15,7 +15,7 @@ import (
 )
 
 type OrderService struct {
-	repo        repositories.OrderRepository
+	repo        *repositories.OrderRepository
 	client      pkg.SpotInstrumentServiceClient
 	logger      *slog.Logger
 	redisClient *redis.Client
@@ -25,7 +25,7 @@ type OrderService struct {
 //redis todo
 
 func NewOrderService(
-	repo repositories.OrderRepository,
+	repo *repositories.OrderRepository,
 	client pkg.SpotInstrumentServiceClient,
 	logger *slog.Logger,
 	redisClient *redis.Client,
@@ -126,4 +126,31 @@ func (s *OrderService) GetOrderStatus(userIdString, orderIdString string) (*orde
 
 	return status, nil
 
+}
+
+func (s *OrderService) StreamOrderUpdates(ctx context.Context) (*order.OrderStatusUpdateResponse, error) {
+	s.repo.UpdateAllOrdersToLast()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		case <-time.After(5 * time.Second):
+			orders := s.repo.GetOrders()
+			for id, ord := range orders {
+				if s.repo.HasChanged(id) {
+					update := &order.OrderStatusUpdateResponse{
+						Status: ord.Status,
+					}
+					s.repo.UpdateLastState(id)
+					return update, nil
+				}
+			}
+		}
+	}
+}
+
+func (s *OrderService) UpdateOrderStatus(id string, status *order.Status) (*order.Status, error) {
+	s.repo.UpdateOrderStatus(id, *status)
+	return status, nil
 }

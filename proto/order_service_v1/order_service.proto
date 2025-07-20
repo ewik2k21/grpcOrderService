@@ -9,4 +9,8 @@ import "order_service_v1/order_service_messages.proto";
 service OrderService{
   rpc GetOrderStatus(GetOrderStatusRequest) returns (GetOrderStatusResponse);
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc StreamOrderUpdates (StreamOrderUpdatesRequest) returns (stream OrderStatusUpdateResponse);
+  rpc UpdateOrderStatus (UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
 }
+
+

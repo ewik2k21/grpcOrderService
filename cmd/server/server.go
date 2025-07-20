@@ -53,13 +53,13 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 
 	_, err = redisClient.Ping(ctx).Result()
 	if err != nil {
-		logger.Error("failed to connect to Redis: %v", slog.String("error", err.Error()))
+		logger.Error("failed to connect to Redis: ", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
 	logger.Info("Redis connect on ", slog.String("port", cfg.RedisPort))
 
 	orderRepo := repositories.NewOrderRepository(logger)
-	orderService := services.NewOrderService(*orderRepo, spotInstrumentClient, logger, redisClient, cacheTTL)
+	orderService := services.NewOrderService(orderRepo, spotInstrumentClient, logger, redisClient, cacheTTL)
 	orderHandler := handlers.NewOrderHandler(logger, orderService)
 
 	order_service_v1.RegisterOrderServiceServer(grpcServer, orderHandler)

@@ -349,6 +349,190 @@ func (x *CreateOrderResponse) GetStatus() Status {
 	return Status_CREATED
 }
 
+type StreamOrderUpdatesRequest struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	UserRole      spot_instrument_v1.UserRole `protobuf:"varint,1,opt,name=user_role,json=userRole,proto3,enum=common.UserRole" json:"user_role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamOrderUpdatesRequest) Reset() {
+	*x = StreamOrderUpdatesRequest{}
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamOrderUpdatesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamOrderUpdatesRequest) ProtoMessage() {}
+
+func (x *StreamOrderUpdatesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamOrderUpdatesRequest.ProtoReflect.Descriptor instead.
+func (*StreamOrderUpdatesRequest) Descriptor() ([]byte, []int) {
+	return file_order_service_v1_order_service_messages_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *StreamOrderUpdatesRequest) GetUserRole() spot_instrument_v1.UserRole {
+	if x != nil {
+		return x.UserRole
+	}
+	return spot_instrument_v1.UserRole(0)
+}
+
+type OrderStatusUpdateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        Status                 `protobuf:"varint,1,opt,name=status,proto3,enum=order_service_v1.Status" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OrderStatusUpdateResponse) Reset() {
+	*x = OrderStatusUpdateResponse{}
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OrderStatusUpdateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OrderStatusUpdateResponse) ProtoMessage() {}
+
+func (x *OrderStatusUpdateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OrderStatusUpdateResponse.ProtoReflect.Descriptor instead.
+func (*OrderStatusUpdateResponse) Descriptor() ([]byte, []int) {
+	return file_order_service_v1_order_service_messages_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *OrderStatusUpdateResponse) GetStatus() Status {
+	if x != nil {
+		return x.Status
+	}
+	return Status_CREATED
+}
+
+type UpdateOrderStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	Status        Status                 `protobuf:"varint,2,opt,name=status,proto3,enum=order_service_v1.Status" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateOrderStatusRequest) Reset() {
+	*x = UpdateOrderStatusRequest{}
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateOrderStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateOrderStatusRequest) ProtoMessage() {}
+
+func (x *UpdateOrderStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateOrderStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateOrderStatusRequest) Descriptor() ([]byte, []int) {
+	return file_order_service_v1_order_service_messages_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateOrderStatusRequest) GetOrderId() string {
+	if x != nil {
+		return x.OrderId
+	}
+	return ""
+}
+
+func (x *UpdateOrderStatusRequest) GetStatus() Status {
+	if x != nil {
+		return x.Status
+	}
+	return Status_CREATED
+}
+
+type UpdateOrderStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        Status                 `protobuf:"varint,1,opt,name=status,proto3,enum=order_service_v1.Status" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateOrderStatusResponse) Reset() {
+	*x = UpdateOrderStatusResponse{}
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateOrderStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateOrderStatusResponse) ProtoMessage() {}
+
+func (x *UpdateOrderStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_order_service_v1_order_service_messages_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateOrderStatusResponse.ProtoReflect.Descriptor instead.
+func (*UpdateOrderStatusResponse) Descriptor() ([]byte, []int) {
+	return file_order_service_v1_order_service_messages_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateOrderStatusResponse) GetStatus() Status {
+	if x != nil {
+		return x.Status
+	}
+	return Status_CREATED
+}
+
 var File_order_service_v1_order_service_messages_proto protoreflect.FileDescriptor
 
 const file_order_service_v1_order_service_messages_proto_rawDesc = "" +
@@ -369,7 +553,16 @@ const file_order_service_v1_order_service_messages_proto_rawDesc = "" +
 	"\bquantity\x18\x06 \x01(\x01R\bquantity\"b\n" +
 	"\x13CreateOrderResponse\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x120\n" +
-	"\x06status\x18\x02 \x01(\x0e2\x18.order_service_v1.StatusR\x06status*4\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x18.order_service_v1.StatusR\x06status\"J\n" +
+	"\x19StreamOrderUpdatesRequest\x12-\n" +
+	"\tuser_role\x18\x01 \x01(\x0e2\x10.common.UserRoleR\buserRole\"M\n" +
+	"\x19OrderStatusUpdateResponse\x120\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x18.order_service_v1.StatusR\x06status\"g\n" +
+	"\x18UpdateOrderStatusRequest\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\x120\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x18.order_service_v1.StatusR\x06status\"M\n" +
+	"\x19UpdateOrderStatusResponse\x120\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x18.order_service_v1.StatusR\x06status*4\n" +
 	"\x06Status\x12\v\n" +
 	"\aCREATED\x10\x00\x12\x0e\n" +
 	"\n" +
@@ -392,26 +585,34 @@ func file_order_service_v1_order_service_messages_proto_rawDescGZIP() []byte {
 }
 
 var file_order_service_v1_order_service_messages_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_order_service_v1_order_service_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_order_service_v1_order_service_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_order_service_v1_order_service_messages_proto_goTypes = []any{
-	(Status)(0),                      // 0: order_service_v1.Status
-	(OrderType)(0),                   // 1: order_service_v1.OrderType
-	(*GetOrderStatusRequest)(nil),    // 2: order_service_v1.GetOrderStatusRequest
-	(*GetOrderStatusResponse)(nil),   // 3: order_service_v1.GetOrderStatusResponse
-	(*CreateOrderRequest)(nil),       // 4: order_service_v1.CreateOrderRequest
-	(*CreateOrderResponse)(nil),      // 5: order_service_v1.CreateOrderResponse
-	(spot_instrument_v1.UserRole)(0), // 6: common.UserRole
+	(Status)(0),                       // 0: order_service_v1.Status
+	(OrderType)(0),                    // 1: order_service_v1.OrderType
+	(*GetOrderStatusRequest)(nil),     // 2: order_service_v1.GetOrderStatusRequest
+	(*GetOrderStatusResponse)(nil),    // 3: order_service_v1.GetOrderStatusResponse
+	(*CreateOrderRequest)(nil),        // 4: order_service_v1.CreateOrderRequest
+	(*CreateOrderResponse)(nil),       // 5: order_service_v1.CreateOrderResponse
+	(*StreamOrderUpdatesRequest)(nil), // 6: order_service_v1.StreamOrderUpdatesRequest
+	(*OrderStatusUpdateResponse)(nil), // 7: order_service_v1.OrderStatusUpdateResponse
+	(*UpdateOrderStatusRequest)(nil),  // 8: order_service_v1.UpdateOrderStatusRequest
+	(*UpdateOrderStatusResponse)(nil), // 9: order_service_v1.UpdateOrderStatusResponse
+	(spot_instrument_v1.UserRole)(0),  // 10: common.UserRole
 }
 var file_order_service_v1_order_service_messages_proto_depIdxs = []int32{
-	0, // 0: order_service_v1.GetOrderStatusResponse.status:type_name -> order_service_v1.Status
-	6, // 1: order_service_v1.CreateOrderRequest.user_role:type_name -> common.UserRole
-	1, // 2: order_service_v1.CreateOrderRequest.order_type:type_name -> order_service_v1.OrderType
-	0, // 3: order_service_v1.CreateOrderResponse.status:type_name -> order_service_v1.Status
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0,  // 0: order_service_v1.GetOrderStatusResponse.status:type_name -> order_service_v1.Status
+	10, // 1: order_service_v1.CreateOrderRequest.user_role:type_name -> common.UserRole
+	1,  // 2: order_service_v1.CreateOrderRequest.order_type:type_name -> order_service_v1.OrderType
+	0,  // 3: order_service_v1.CreateOrderResponse.status:type_name -> order_service_v1.Status
+	10, // 4: order_service_v1.StreamOrderUpdatesRequest.user_role:type_name -> common.UserRole
+	0,  // 5: order_service_v1.OrderStatusUpdateResponse.status:type_name -> order_service_v1.Status
+	0,  // 6: order_service_v1.UpdateOrderStatusRequest.status:type_name -> order_service_v1.Status
+	0,  // 7: order_service_v1.UpdateOrderStatusResponse.status:type_name -> order_service_v1.Status
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_order_service_v1_order_service_messages_proto_init() }
@@ -425,7 +626,7 @@ func file_order_service_v1_order_service_messages_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_order_service_v1_order_service_messages_proto_rawDesc), len(file_order_service_v1_order_service_messages_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   4,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

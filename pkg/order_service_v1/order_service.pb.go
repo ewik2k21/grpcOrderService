@@ -24,24 +24,34 @@ var File_order_service_v1_order_service_proto protoreflect.FileDescriptor
 
 const file_order_service_v1_order_service_proto_rawDesc = "" +
 	"\n" +
-	"$order_service_v1/order_service.proto\x12\x10order_service_v1\x1a-order_service_v1/order_service_messages.proto2\xcf\x01\n" +
+	"$order_service_v1/order_service.proto\x12\x10order_service_v1\x1a-order_service_v1/order_service_messages.proto2\xaf\x03\n" +
 	"\fOrderService\x12c\n" +
 	"\x0eGetOrderStatus\x12'.order_service_v1.GetOrderStatusRequest\x1a(.order_service_v1.GetOrderStatusResponse\x12Z\n" +
-	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponseB*Z(github.com/ewik2k21/grpcOrderService/pkgb\x06proto3"
+	"\vCreateOrder\x12$.order_service_v1.CreateOrderRequest\x1a%.order_service_v1.CreateOrderResponse\x12p\n" +
+	"\x12StreamOrderUpdates\x12+.order_service_v1.StreamOrderUpdatesRequest\x1a+.order_service_v1.OrderStatusUpdateResponse0\x01\x12l\n" +
+	"\x11UpdateOrderStatus\x12*.order_service_v1.UpdateOrderStatusRequest\x1a+.order_service_v1.UpdateOrderStatusResponseB*Z(github.com/ewik2k21/grpcOrderService/pkgb\x06proto3"
 
 var file_order_service_v1_order_service_proto_goTypes = []any{
-	(*GetOrderStatusRequest)(nil),  // 0: order_service_v1.GetOrderStatusRequest
-	(*CreateOrderRequest)(nil),     // 1: order_service_v1.CreateOrderRequest
-	(*GetOrderStatusResponse)(nil), // 2: order_service_v1.GetOrderStatusResponse
-	(*CreateOrderResponse)(nil),    // 3: order_service_v1.CreateOrderResponse
+	(*GetOrderStatusRequest)(nil),     // 0: order_service_v1.GetOrderStatusRequest
+	(*CreateOrderRequest)(nil),        // 1: order_service_v1.CreateOrderRequest
+	(*StreamOrderUpdatesRequest)(nil), // 2: order_service_v1.StreamOrderUpdatesRequest
+	(*UpdateOrderStatusRequest)(nil),  // 3: order_service_v1.UpdateOrderStatusRequest
+	(*GetOrderStatusResponse)(nil),    // 4: order_service_v1.GetOrderStatusResponse
+	(*CreateOrderResponse)(nil),       // 5: order_service_v1.CreateOrderResponse
+	(*OrderStatusUpdateResponse)(nil), // 6: order_service_v1.OrderStatusUpdateResponse
+	(*UpdateOrderStatusResponse)(nil), // 7: order_service_v1.UpdateOrderStatusResponse
 }
 var file_order_service_v1_order_service_proto_depIdxs = []int32{
 	0, // 0: order_service_v1.OrderService.GetOrderStatus:input_type -> order_service_v1.GetOrderStatusRequest
 	1, // 1: order_service_v1.OrderService.CreateOrder:input_type -> order_service_v1.CreateOrderRequest
-	2, // 2: order_service_v1.OrderService.GetOrderStatus:output_type -> order_service_v1.GetOrderStatusResponse
-	3, // 3: order_service_v1.OrderService.CreateOrder:output_type -> order_service_v1.CreateOrderResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 2: order_service_v1.OrderService.StreamOrderUpdates:input_type -> order_service_v1.StreamOrderUpdatesRequest
+	3, // 3: order_service_v1.OrderService.UpdateOrderStatus:input_type -> order_service_v1.UpdateOrderStatusRequest
+	4, // 4: order_service_v1.OrderService.GetOrderStatus:output_type -> order_service_v1.GetOrderStatusResponse
+	5, // 5: order_service_v1.OrderService.CreateOrder:output_type -> order_service_v1.CreateOrderResponse
+	6, // 6: order_service_v1.OrderService.StreamOrderUpdates:output_type -> order_service_v1.OrderStatusUpdateResponse
+	7, // 7: order_service_v1.OrderService.UpdateOrderStatus:output_type -> order_service_v1.UpdateOrderStatusResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

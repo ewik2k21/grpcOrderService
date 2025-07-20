@@ -39,7 +39,10 @@ func (h *OrderHandler) CreateOrder(ctx context.Context, request *order.CreateOrd
 
 }
 
-func (h *OrderHandler) GetOrderStatus(ctx context.Context, req *order.GetOrderStatusRequest) (*order.GetOrderStatusResponse, error) {
+func (h *OrderHandler) GetOrderStatus(
+	ctx context.Context,
+	req *order.GetOrderStatusRequest,
+) (*order.GetOrderStatusResponse, error) {
 
 	userId := req.GetUserId()
 	orderId := req.GetOrderId()
@@ -50,6 +53,34 @@ func (h *OrderHandler) GetOrderStatus(ctx context.Context, req *order.GetOrderSt
 	}
 
 	return &order.GetOrderStatusResponse{
+		Status: *status,
+	}, nil
+}
+
+func (h *OrderHandler) StreamOrderUpdates(
+	req *order.StreamOrderUpdatesRequest,
+	stream order.OrderService_StreamOrderUpdatesServer,
+) error {
+	ctx := stream.Context()
+
+	update, err := h.service.StreamOrderUpdates(ctx)
+	if err != nil {
+		return err
+	}
+	if err = stream.Send(update); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *OrderHandler) UpdateOrderStatus(ctx context.Context, req *order.UpdateOrderStatusRequest) (*order.UpdateOrderStatusResponse, error) {
+	id, newStatus := req.GetOrderId(), req.GetStatus()
+
+	status, err := h.service.UpdateOrderStatus(id, &newStatus)
+	if err != nil {
+		return nil, err
+	}
+	return &order.UpdateOrderStatusResponse{
 		Status: *status,
 	}, nil
 }
