@@ -2,7 +2,6 @@ package tracing
 
 import (
 	"context"
-	"fmt"
 	"github.com/ewik2k21/grpcOrderService/config"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
@@ -12,8 +11,8 @@ import (
 )
 
 func InitJaeger(ctx context.Context, serviceName string, cfg config.Config) (*trace.TracerProvider, error) {
-	endpoint := fmt.Sprintf("localhost%s", cfg.JaegerPort)
-	exp, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint(endpoint), otlptracehttp.WithInsecure())
+
+	exp, err := otlptracehttp.New(ctx, otlptracehttp.WithEndpoint(cfg.JaegerPort), otlptracehttp.WithInsecure())
 	if err != nil {
 		return nil, err
 	}

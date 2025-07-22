@@ -16,9 +16,9 @@ type Config struct {
 func InitConfig() *Config {
 	grpcPort := flag.String("grpcPort", ":50051", "grpcPort to listen on")
 	httpPort := flag.String("httpPort", ":2113", "httpPort for metrics")
-	spotInstrumentAddr := flag.String("spotInstrument", "localhost:50052", "Spot instrument address")
-	redisPort := flag.String("redisPort", "localhost:6379", "redisPort to redis client")
-	JaegerPort := flag.String("jaegerPort", ":4318", "port for tracing")
+	spotInstrumentAddr := flag.String("spotInstrument", "spot-instrument-service:50052", "Spot instrument address")
+	redisPort := flag.String("redisPort", "redis:6379", "redisPort to redis client")
+	JaegerPort := flag.String("jaegerPort", "jaeger:4318", "port for tracing")
 	flag.Parse()
 
 	cfg := &Config{
@@ -41,7 +41,7 @@ func InitConfig() *Config {
 		}
 	}
 
-	if *spotInstrumentAddr == "localhost:50052" {
+	if *spotInstrumentAddr == "spot-instrument-service:50052" {
 		if envPort := os.Getenv("SPOT_INSTRUMENT_ADDR"); envPort != "" {
 			cfg.SpotInstrument = envPort
 		}
@@ -53,7 +53,7 @@ func InitConfig() *Config {
 		}
 	}
 
-	if *JaegerPort == ":4318" {
+	if *JaegerPort == "jaeger:4318" {
 		if envPort := os.Getenv("JAEGER_AGENT_PORT"); envPort != "" {
 			cfg.JaegerPort = envPort
 		}
