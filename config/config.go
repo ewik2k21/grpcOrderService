@@ -10,6 +10,7 @@ type Config struct {
 	HTTPPort       string
 	SpotInstrument string
 	RedisPort      string
+	JaegerPort     string
 }
 
 func InitConfig() *Config {
@@ -17,6 +18,7 @@ func InitConfig() *Config {
 	httpPort := flag.String("httpPort", ":2113", "httpPort for metrics")
 	spotInstrumentAddr := flag.String("spotInstrument", "localhost:50052", "Spot instrument address")
 	redisPort := flag.String("redisPort", "localhost:6379", "redisPort to redis client")
+	JaegerPort := flag.String("jaegerPort", ":4318", "port for tracing")
 	flag.Parse()
 
 	cfg := &Config{
@@ -24,6 +26,7 @@ func InitConfig() *Config {
 		HTTPPort:       *httpPort,
 		SpotInstrument: *spotInstrumentAddr,
 		RedisPort:      *redisPort,
+		JaegerPort:     *JaegerPort,
 	}
 
 	if *grpcPort == ":50051" {
@@ -47,6 +50,12 @@ func InitConfig() *Config {
 	if *redisPort == "localhost:6379" {
 		if envPort := os.Getenv("REDIS_PORT"); envPort != "" {
 			cfg.RedisPort = envPort
+		}
+	}
+
+	if *JaegerPort == ":4318" {
+		if envPort := os.Getenv("JAEGER_AGENT_PORT"); envPort != "" {
+			cfg.JaegerPort = envPort
 		}
 	}
 

@@ -7,10 +7,12 @@ import (
 	"github.com/ewik2k21/grpcOrderService/internal/interceptors"
 	"github.com/ewik2k21/grpcOrderService/internal/repositories"
 	"github.com/ewik2k21/grpcOrderService/internal/services"
+	"github.com/ewik2k21/grpcOrderService/internal/tracing"
 	order_service_v1 "github.com/ewik2k21/grpcOrderService/pkg/order_service_v1"
 	spot_instrument_service_v1 "github.com/ewik2k21/grpcSpotInstrumentService/pkg/spot_instrument_v1"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/redis/go-redis/v9"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log/slog"
@@ -26,6 +28,14 @@ import (
 func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 	wg := sync.WaitGroup{}
 
+	//jaeger init
+	tp, err := tracing.InitJaeger(ctx, "OrderService", *cfg)
+	if err != nil {
+		logger.Error("failed to start tracing jaeger", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+	defer tp.Shutdown(ctx)
+
 	//conn for spot instrument client
 	conn, err := grpc.Dial(cfg.SpotInstrument, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -37,6 +47,7 @@ func Execute(ctx context.Context, cfg *config.Config, logger *slog.Logger) {
 	spotInstrumentClient := spot_instrument_service_v1.NewSpotInstrumentServiceClient(conn)
 
 	grpcServer := grpc.NewServer(
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 		grpc.ChainUnaryInterceptor(
 			interceptors.RequestIDInterceptor(),
 			interceptors.LoggerRequestInterceptor(logger),
